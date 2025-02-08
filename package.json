@@ -1,0 +1,13 @@
+{
+	"name": "balderdash-companion-app",
+	"version": "0.0.1",
+	"packageManager": "pnpm@9.15.4",
+	"scripts": {
+		"dev": "turbo dev",
+		"build": "turbo build",
+		"check-types": "turbo check-types"
+	},
+	"devDependencies": {
+		"turbo": "^2.4.0"
+	}
+}
