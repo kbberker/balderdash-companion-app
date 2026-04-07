@@ -19,11 +19,24 @@ pnpm build
 pnpm check-types
 
 # Lint
+pnpm lint                       # Both packages via Turbo
 pnpm --filter client lint
 pnpm --filter server lint
-```
 
-There are no test commands configured yet.
+# Test
+pnpm test                       # Both packages via Turbo
+pnpm --filter client test
+pnpm --filter server test
+
+# Format
+pnpm format                     # Fix all files
+pnpm format:check               # Check only (used in CI)
+
+# Database (from server/)
+pnpm --filter server db:generate  # Generate migration from schema changes
+pnpm --filter server db:migrate   # Run pending migrations
+pnpm --filter server db:studio    # Open Drizzle Studio
+```
 
 ## Architecture
 
