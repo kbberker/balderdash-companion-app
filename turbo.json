@@ -7,6 +7,8 @@
     "check-types": {
       "dependsOn": ["^check-types"]
     },
+    "test": {},
+    "lint": {},
     "dev": {
       "persistent": true,
       "cache": false

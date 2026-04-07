@@ -6,20 +6,17 @@
     "dev": "turbo dev",
     "build": "turbo build",
     "check-types": "turbo check-types",
+    "test": "turbo test",
+    "lint": "turbo lint",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "prettier --write",
-      "eslint --fix"
-    ],
-    "*.{json,css,md,yml,yaml}": [
-      "prettier --write"
-    ]
+    "*.{json,css,md,yml,yaml}": "prettier --write"
   },
   "devDependencies": {
+    "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",

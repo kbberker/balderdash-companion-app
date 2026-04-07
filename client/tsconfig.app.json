@@ -24,7 +24,8 @@
     "noUncheckedIndexedAccess": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "types": ["vitest/globals"]
   },
   "include": ["src"]
 }
