@@ -1,13 +1,17 @@
 {
-	"name": "balderdash-companion-app",
-	"version": "0.0.1",
-	"packageManager": "pnpm@10.33.0",
-	"scripts": {
-		"dev": "turbo dev",
-		"build": "turbo build",
-		"check-types": "turbo check-types"
-	},
-	"devDependencies": {
-		"turbo": "^2.4.0"
-	}
+  "name": "balderdash-companion-app",
+  "version": "0.0.1",
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "turbo": "^2.4.0"
+  }
 }

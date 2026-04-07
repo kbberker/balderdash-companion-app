@@ -11,21 +11,21 @@ const app = express();
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"]
-  }
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST'],
+  },
 });
 
 // Database connection
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL,
 });
 
-const db = drizzle(pool, { schema });
+const _db = drizzle(pool, { schema });
 
 // Socket.IO event handlers
 io.on('connection', (socket) => {
-  console.log('Client connected:', socket.id);
+  console.info('Client connected:', socket.id);
 
   // Join game room
   socket.on('joinGame', async ({ gameCode, playerName }) => {
@@ -33,34 +33,34 @@ io.on('connection', (socket) => {
       // Add player to game logic here
       socket.join(gameCode);
       io.to(gameCode).emit('playerJoined', { playerName });
-    } catch (error) {
+    } catch {
       socket.emit('error', { message: 'Failed to join game' });
     }
   });
 
   // Submit answer
-  socket.on('submitAnswer', async ({ gameCode, playerId, answer }) => {
+  socket.on('submitAnswer', async ({ gameCode, playerId, answer: _answer }) => {
     try {
       // Save answer logic here
       io.to(gameCode).emit('answerSubmitted', { playerId });
-    } catch (error) {
+    } catch {
       socket.emit('error', { message: 'Failed to submit answer' });
     }
   });
 
   // Submit vote
-  socket.on('submitVote', async ({ gameCode, playerId, answerId }) => {
+  socket.on('submitVote', async ({ gameCode, playerId, answerId: _answerId }) => {
     try {
       // Save vote logic here
       io.to(gameCode).emit('voteSubmitted', { playerId });
-    } catch (error) {
+    } catch {
       socket.emit('error', { message: 'Failed to submit vote' });
     }
   });
 
   // Handle disconnection
   socket.on('disconnect', () => {
-    console.log('Client disconnected:', socket.id);
+    console.info('Client disconnected:', socket.id);
   });
 });
 
@@ -71,5 +71,5 @@ app.use(express.json());
 // Start server
 const PORT = process.env.PORT || 4000;
 httpServer.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.info(`Server running on port ${PORT}`);
 });
