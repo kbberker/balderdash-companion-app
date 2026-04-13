@@ -19,22 +19,37 @@ pnpm build
 pnpm check-types
 
 # Lint
+pnpm lint                       # Both packages via Turbo
 pnpm --filter client lint
 pnpm --filter server lint
-```
 
-There are no test commands configured yet.
+# Test
+pnpm test                       # Both packages via Turbo
+pnpm --filter client test
+pnpm --filter server test
+
+# Format
+pnpm format                     # Fix all files
+pnpm format:check               # Check only (used in CI)
+
+# Database (from server/)
+pnpm --filter server db:generate  # Generate migration from schema changes
+pnpm --filter server db:migrate   # Run pending migrations
+pnpm --filter server db:studio    # Open Drizzle Studio
+```
 
 ## Architecture
 
 This is a **pnpm + Turborepo monorepo** with two packages: `client/` (React frontend) and `server/` (Express backend).
 
 ### Stack
+
 - **Client**: React 18, TypeScript, Vite, React Router 7, socket.io-client, Tailwind CSS
 - **Server**: Express, TypeScript, Socket.io, Drizzle ORM, PostgreSQL
 - **Database**: Requires a PostgreSQL instance; set `DATABASE_URL` in `server/.env`
 
 ### Communication Pattern
+
 The client and server communicate exclusively via Socket.io (not REST). The client connects to `http://localhost:4000`. All game state updates flow through socket events broadcast to socket.io rooms keyed by `gameCode`.
 
 **Current socket events:**
@@ -48,7 +63,9 @@ The client and server communicate exclusively via Socket.io (not REST). The clie
 | S → C | `voteSubmitted` | vote data |
 
 ### Game Domain
+
 Balderdash is a bluffing party game:
+
 1. The **Dasher** reads a prompt and knows the correct answer
 2. Other players submit fake answers to fool other players
 3. All players vote on which answer they think is correct
@@ -59,7 +76,9 @@ Balderdash is a bluffing party game:
 **Game phases:** `answering` → `voting` → `completed` (tracked on the `rounds` table).
 
 ### Frontend State
+
 Global game state (current game, player info) is managed via React Context (`GameContext`) defined in `client/src/App.tsx` and provided to the entire app. Page routing is handled by React Router.
 
 ### Server Entry Point
+
 `server/src/index.ts` initializes Express, creates the HTTP server, attaches Socket.io, and registers all socket event handlers. Database operations use Drizzle ORM with the `pg` driver.

@@ -2,6 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { io } from 'socket.io-client';
 
+interface SocketResponse {
+  success: boolean;
+  gameCode?: string;
+}
+
 const socket = io('http://localhost:4000');
 socket.connect();
 
@@ -12,7 +17,7 @@ export function Home() {
 
   const createGame = async () => {
     try {
-      socket.emit('createGame', { playerName }, (response: any) => {
+      socket.emit('createGame', { playerName }, (response: SocketResponse) => {
         if (response.success) {
           navigate(`/game/${response.gameCode}`);
         }
@@ -24,7 +29,7 @@ export function Home() {
 
   const joinGame = async () => {
     try {
-      socket.emit('joinGame', { gameCode, playerName }, (response: any) => {
+      socket.emit('joinGame', { gameCode, playerName }, (response: SocketResponse) => {
         if (response.success) {
           navigate(`/game/${gameCode}`);
         }
@@ -46,10 +51,7 @@ export function Home() {
           className="block w-full p-2 border rounded"
         />
         <div className="space-y-2">
-          <button
-            onClick={createGame}
-            className="block w-full p-2 bg-blue-500 text-white rounded"
-          >
+          <button onClick={createGame} className="block w-full p-2 bg-blue-500 text-white rounded">
             Create New Game
           </button>
           <div className="flex space-x-2">
@@ -60,10 +62,7 @@ export function Home() {
               onChange={(e) => setGameCode(e.target.value)}
               className="flex-1 p-2 border rounded"
             />
-            <button
-              onClick={joinGame}
-              className="p-2 bg-green-500 text-white rounded"
-            >
+            <button onClick={joinGame} className="p-2 bg-green-500 text-white rounded">
               Join Game
             </button>
           </div>

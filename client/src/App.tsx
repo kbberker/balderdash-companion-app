@@ -1,11 +1,23 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router';
-import { createContext, useState } from 'react';
+import { createContext, useState, Dispatch, SetStateAction } from 'react';
 import { Home } from './pages/Home';
 
-export const GameContext = createContext<any>(null);
+interface GameState {
+  gameId: string | null;
+  players: string[];
+  currentRound: string | null;
+  isDasher: boolean;
+}
+
+interface GameContextType {
+  gameState: GameState;
+  setGameState: Dispatch<SetStateAction<GameState>>;
+}
+
+export const GameContext = createContext<GameContextType | null>(null);
 
 export function App() {
-  const [gameState, setGameState] = useState({
+  const [gameState, setGameState] = useState<GameState>({
     gameId: null,
     players: [],
     currentRound: null,

@@ -1,6 +1,7 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   { ignores: ['dist'] },
@@ -22,17 +23,23 @@ export default tseslint.config(
     },
     rules: {
       // Rules that need custom configuration
-      '@typescript-eslint/no-unused-vars': ['error', { 
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_' 
-      }],
-      
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
+
       // Rules not included in the extended configs
-      '@typescript-eslint/explicit-function-return-type': ['warn', {
-        allowExpressions: true,
-        allowTypedFunctionExpressions: true,
-      }],
-      
+      '@typescript-eslint/explicit-function-return-type': [
+        'warn',
+        {
+          allowExpressions: true,
+          allowTypedFunctionExpressions: true,
+        },
+      ],
+
       // Important for Express/Socket.IO async handlers
       '@typescript-eslint/no-misused-promises': [
         'error',
@@ -40,12 +47,13 @@ export default tseslint.config(
           checksVoidReturn: false, // Allow void returns for Express middleware
         },
       ],
-      
+
       // Customize console usage for server logging
       'no-console': ['warn', { allow: ['warn', 'error', 'info'] }],
-      
+
       // Database-related rule customization
       '@typescript-eslint/return-await': ['error', 'in-try-catch'],
     },
   },
-)
+  eslintConfigPrettier,
+);
