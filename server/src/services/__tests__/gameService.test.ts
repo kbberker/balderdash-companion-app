@@ -1,5 +1,10 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { GameService } from '../gameService';
+import {
+  GameService,
+  GameNotFoundError,
+  GameFullError,
+  MAX_PLAYERS_PER_GAME,
+} from '../gameService';
 import { InMemoryGameRepository } from './fakes/inMemoryGameRepository';
 
 describe('GameService.createGame', () => {
@@ -37,5 +42,58 @@ describe('GameService.createGame', () => {
   it('rejects empty player names', async () => {
     await expect(service.createGame({ playerName: '' })).rejects.toThrow();
     await expect(service.createGame({ playerName: '   ' })).rejects.toThrow();
+  });
+});
+
+describe('GameService.joinGame', () => {
+  let repo: InMemoryGameRepository;
+  let service: GameService;
+
+  beforeEach(() => {
+    repo = new InMemoryGameRepository();
+    service = new GameService(repo);
+  });
+
+  it('appends a new player to the players list of an existing game', async () => {
+    const created = await service.createGame({ playerName: 'Alice' });
+
+    const result = await service.joinGame({
+      gameCode: created.gameCode,
+      playerName: 'Bob',
+    });
+
+    expect(result.players).toHaveLength(2);
+    expect(result.players.map((p) => p.name)).toEqual(['Alice', 'Bob']);
+    expect(result.players[1]?.isCurrentDasher).toBe(false);
+  });
+
+  it('throws GameNotFoundError for an unknown code', async () => {
+    await expect(service.joinGame({ gameCode: 'ZZZZ', playerName: 'Bob' })).rejects.toBeInstanceOf(
+      GameNotFoundError,
+    );
+  });
+
+  it('throws GameFullError when the game already has the max number of players', async () => {
+    const created = await service.createGame({ playerName: 'Alice' });
+    for (let i = 1; i < MAX_PLAYERS_PER_GAME; i++) {
+      await service.joinGame({
+        gameCode: created.gameCode,
+        playerName: `Player${i}`,
+      });
+    }
+
+    await expect(
+      service.joinGame({
+        gameCode: created.gameCode,
+        playerName: 'OneTooMany',
+      }),
+    ).rejects.toBeInstanceOf(GameFullError);
+  });
+
+  it('rejects empty player names', async () => {
+    const created = await service.createGame({ playerName: 'Alice' });
+    await expect(
+      service.joinGame({ gameCode: created.gameCode, playerName: '' }),
+    ).rejects.toThrow();
   });
 });
