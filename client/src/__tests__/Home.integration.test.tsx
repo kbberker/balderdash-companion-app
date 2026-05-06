@@ -12,13 +12,16 @@ vi.mock('socket.io-client', () => ({
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { Home } from '../pages/Home';
+import { GameProvider } from '../context/GameProvider';
 
 describe('Home integration', () => {
   it('renders the home page with game controls', () => {
     render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>,
+      <GameProvider>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </GameProvider>,
     );
     expect(screen.getByText('Balderdash')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Your Name')).toBeInTheDocument();
