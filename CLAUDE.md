@@ -20,13 +20,13 @@ pnpm check-types
 
 # Lint
 pnpm lint                       # Both packages via Turbo
-pnpm --filter client lint
-pnpm --filter server lint
+pnpm lint-client                # Client only via Turbo --filter
+pnpm lint-server                # Server only via Turbo --filter
 
 # Test
 pnpm test                       # Both packages via Turbo
-pnpm --filter client test
-pnpm --filter server test
+pnpm test-client                # Client only via Turbo --filter
+pnpm test-server                # Server only via Turbo --filter
 
 # Format
 pnpm format                     # Fix all files

@@ -7,7 +7,11 @@
     "build": "turbo build",
     "check-types": "turbo check-types",
     "test": "turbo test",
+    "test-server": "turbo test --filter=server",
+    "test-client": "turbo test --filter=client",
     "lint": "turbo lint",
+    "lint-server": "turbo lint --filter=server",
+    "lint-client": "turbo lint --filter=client",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "prepare": "husky"
