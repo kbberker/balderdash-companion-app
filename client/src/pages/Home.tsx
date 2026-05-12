@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { io } from 'socket.io-client';
+import { socket } from '../lib/socket';
 import { useGame, type LobbyPlayer } from '../context/useGame';
 
 interface SocketResponse {
@@ -10,9 +10,6 @@ interface SocketResponse {
   playerId?: number;
   players?: LobbyPlayer[];
 }
-
-const socket = io('http://localhost:4000');
-socket.connect();
 
 export function Home() {
   const [playerName, setPlayerName] = useState('');
