@@ -6,7 +6,7 @@ import { toSocketIo } from '@mswjs/socket.io-binding';
 
 import { server } from '../test/mocks/server';
 import { GameContext, type GameState, type LobbyPlayer } from '../context/useGame';
-import { Lobby } from '../pages/Lobby';
+import { Lobby } from './Lobby';
 
 const link = ws.link('ws://localhost:4000/socket.io/');
 

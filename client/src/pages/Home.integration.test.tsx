@@ -11,7 +11,7 @@ vi.mock('socket.io-client', () => ({
 
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import { Home } from '../pages/Home';
+import { Home } from './Home';
 import { GameProvider } from '../context/GameProvider';
 
 describe('Home integration', () => {
