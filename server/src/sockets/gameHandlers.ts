@@ -47,6 +47,7 @@ export function registerGameHandlers(io: Server, socket: Socket, service: GameSe
         players: players.map(toPublicPlayer),
       });
     } catch (err) {
+      logUnexpected(err);
       ack?.({ success: false, error: errorMessage(err) });
     }
   });
@@ -67,6 +68,7 @@ export function registerGameHandlers(io: Server, socket: Socket, service: GameSe
         players: players.map(toPublicPlayer),
       });
     } catch (err) {
+      logUnexpected(err);
       ack?.({ success: false, error: errorMessage(err) });
     }
   });
@@ -76,9 +78,19 @@ function toPublicPlayer(p: PlayerRecord): PublicPlayer {
   return { id: p.id, name: p.name, isCurrentDasher: p.isCurrentDasher };
 }
 
+function logUnexpected(err: unknown): void {
+  if (err instanceof GameNotFoundError) return;
+  if (err instanceof GameFullError) return;
+  console.error(err);
+}
+
 function errorMessage(err: unknown): string {
   if (err instanceof GameNotFoundError) return 'Game not found';
   if (err instanceof GameFullError) return 'Game is full';
+  if (err instanceof AggregateError) {
+    const inner = err.errors.map(errorMessage).filter(Boolean).join('; ');
+    return inner || err.message || 'Unexpected error';
+  }
   if (err instanceof Error) return err.message;
   return 'Unexpected error';
 }
