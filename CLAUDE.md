@@ -5,7 +5,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-# Run both client and server in dev mode
+# Start / stop the Postgres dev container (required before `pnpm dev`).
+# `db:up` uses --wait so it returns only once the container is healthy.
+pnpm db:up
+pnpm db:down
+
+# Run both client and server in dev mode (assumes the DB is up)
 pnpm dev
 
 # Run individually
@@ -46,7 +51,7 @@ This is a **pnpm + Turborepo monorepo** with two packages: `client/` (React fron
 
 - **Client**: React 18, TypeScript, Vite, React Router 7, socket.io-client, Tailwind CSS
 - **Server**: Express, TypeScript, Socket.io, Drizzle ORM, PostgreSQL
-- **Database**: Requires a PostgreSQL instance; set `DATABASE_URL` in `server/.env`
+- **Database**: PostgreSQL 18, run locally via `docker-compose.yml` at the repo root. `pnpm db:up` starts it. `server/.env` carries `DATABASE_URL` plus `POSTGRES_USER` / `POSTGRES_PASSWORD` / `POSTGRES_DB` (the last three are read by the Postgres container at startup via the `env_file:` directive).
 
 ### Communication Pattern
 
