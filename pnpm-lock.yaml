@@ -45,6 +45,9 @@ importers:
       '@eslint/js':
         specifier: ^9.17.0
         version: 9.22.0
+      '@mswjs/socket.io-binding':
+        specifier: ^0.2.0
+        version: 0.2.0(msw@2.13.0(@types/node@22.13.10)(typescript@5.8.2))
       '@testing-library/jest-dom':
         specifier: ^6.9.1
         version: 6.9.1
@@ -145,6 +148,9 @@ importers:
       globals:
         specifier: ^15.15.0
         version: 15.15.0
+      socket.io-client:
+        specifier: ^4.8.1
+        version: 4.8.1
       ts-node-dev:
         specifier: ^2.0.0
         version: 2.0.0(@swc/core@1.11.8)(@types/node@22.13.10)(typescript@5.8.2)
@@ -950,9 +956,18 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
+  '@mswjs/interceptors@0.39.8':
+    resolution: {integrity: sha512-2+BzZbjRO7Ct61k8fMNHEtoKjeWI9pIlHFTqBwZ5icHpqszIgEZbjb1MW5Z0+bITTCTl3gk4PDBxs9tA/csXvA==}
+    engines: {node: '>=18'}
+
   '@mswjs/interceptors@0.41.3':
     resolution: {integrity: sha512-cXu86tF4VQVfwz8W1SPbhoRyHJkti6mjH/XJIxp40jhO4j2k1m4KYrEykxqWPkFF3vrK4rgQppBh//AwyGSXPA==}
     engines: {node: '>=18'}
+
+  '@mswjs/socket.io-binding@0.2.0':
+    resolution: {integrity: sha512-Q2Y7ridsoWv3cCibmR8g4m4h50op22nuOm3pZciKCO7ss90dkI4m0jiL55kYzxsUvXIISuK9ovRyXrtr6J6O/A==}
+    peerDependencies:
+      msw: ^2.10.2
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -1996,7 +2011,7 @@ packages:
 
   glob@7.2.3:
     resolution: {integrity: sha512-nFR0zLpU2YCaRxwoCJvL6UvCH2JFyFVIvwTLsIf21AuHlMskA1hhTdk+LlYJtOlYt9v6dvszD2BGRqBL+iQK9Q==}
-    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+    deprecated: Glob versions prior to v9 are no longer supported
 
   globals@14.0.0:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
@@ -3559,6 +3574,15 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@mswjs/interceptors@0.39.8':
+    dependencies:
+      '@open-draft/deferred-promise': 2.2.0
+      '@open-draft/logger': 0.3.0
+      '@open-draft/until': 2.1.0
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      strict-event-emitter: 0.5.1
+
   '@mswjs/interceptors@0.41.3':
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
@@ -3567,6 +3591,15 @@ snapshots:
       is-node-process: 1.2.0
       outvariant: 1.4.3
       strict-event-emitter: 0.5.1
+
+  '@mswjs/socket.io-binding@0.2.0(msw@2.13.0(@types/node@22.13.10)(typescript@5.8.2))':
+    dependencies:
+      '@mswjs/interceptors': 0.39.8
+      engine.io-parser: 5.2.3
+      msw: 2.13.0(@types/node@22.13.10)(typescript@5.8.2)
+      socket.io-parser: 4.2.4
+    transitivePeerDependencies:
+      - supports-color
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
